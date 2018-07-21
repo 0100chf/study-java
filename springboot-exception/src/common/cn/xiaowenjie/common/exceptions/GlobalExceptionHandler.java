@@ -2,6 +2,9 @@ package cn.xiaowenjie.common.exceptions;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.spring.springboot.shiro.config.ShiroConfig;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -19,6 +22,7 @@ import cn.xiaowenjie.common.utils.UserUtil;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
     
+	private static final Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 	/**
 	 * 处理404接口找不到等全局异常
 	 * 已知的接口异常在APPControllerAOP处理
@@ -27,6 +31,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(value =Exception.class )
     public Object handlerException(HttpServletRequest request,Exception exception) {
         
+    	logger.info("GlobalExceptionHandler.handlerException().............");
     	if(exception instanceof NoHandlerFoundException){
     		String errorMessage=CheckUtil.getResources().getMessage("interface.no.found",null, UserUtil.getLocale());
     		
