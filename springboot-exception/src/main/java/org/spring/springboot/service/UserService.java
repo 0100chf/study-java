@@ -1,7 +1,7 @@
 package org.spring.springboot.service;
 
-import static cn.xiaowenjie.common.utils.CheckUtil.check;
-import static cn.xiaowenjie.common.utils.CheckUtil.notEmpty;
+import static cn.ks0100.common.utils.CheckUtil.check;
+import static cn.ks0100.common.utils.CheckUtil.notEmpty;
 
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationToken;
@@ -14,8 +14,8 @@ import org.spring.springboot.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import cn.xiaowenjie.common.authorization.manager.TokenManager;
-import cn.xiaowenjie.common.authorization.model.TokenModel;
+import cn.ks0100.common.authorization.manager.TokenManager;
+import cn.ks0100.common.authorization.model.TokenModel;
 
 @Service
 public class UserService {

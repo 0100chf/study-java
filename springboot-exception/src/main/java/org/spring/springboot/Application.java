@@ -12,7 +12,7 @@ import org.springframework.context.annotation.ComponentScan;
 // Spring Boot 应用的标识
 @SpringBootApplication
 @EnableCaching
-@ComponentScan(basePackages={"cn.xiaowenjie.common","org.spring.springboot"})
+@ComponentScan(basePackages={"cn.ks0100.common","org.spring.springboot"})
 public class Application {
 
     public static void main(String[] args) {

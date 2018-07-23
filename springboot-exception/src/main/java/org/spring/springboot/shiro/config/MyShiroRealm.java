@@ -1,6 +1,6 @@
 package org.spring.springboot.shiro.config;
 
-import static cn.xiaowenjie.common.utils.CheckUtil.notEmpty;
+import static cn.ks0100.common.utils.CheckUtil.notEmpty;
 
 import javax.annotation.Resource;
 

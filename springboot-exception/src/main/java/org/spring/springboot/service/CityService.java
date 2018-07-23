@@ -1,7 +1,7 @@
 package org.spring.springboot.service;
 
-import static cn.xiaowenjie.common.utils.CheckUtil.check;
-import static cn.xiaowenjie.common.utils.CheckUtil.notEmpty;
+import static cn.ks0100.common.utils.CheckUtil.check;
+import static cn.ks0100.common.utils.CheckUtil.notEmpty;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

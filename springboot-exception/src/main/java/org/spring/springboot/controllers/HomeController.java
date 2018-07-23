@@ -10,11 +10,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import cn.xiaowenjie.common.authorization.model.TokenModel;
-import cn.xiaowenjie.common.result.ResultBean;
-import cn.xiaowenjie.common.result.ResultStatus;
-import cn.xiaowenjie.common.utils.CheckUtil;
-import cn.xiaowenjie.common.utils.UserUtil;
+import cn.ks0100.common.authorization.model.TokenModel;
+import cn.ks0100.common.result.ResultBean;
+import cn.ks0100.common.result.ResultStatus;
+import cn.ks0100.common.utils.CheckUtil;
+import cn.ks0100.common.utils.UserUtil;
 import io.swagger.annotations.ApiOperation;
 
 /**

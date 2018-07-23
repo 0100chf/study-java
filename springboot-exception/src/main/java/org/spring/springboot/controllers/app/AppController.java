@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import cn.xiaowenjie.common.result.ResultBean;
+import cn.ks0100.common.result.ResultBean;
 
 @RequestMapping("/app")
 @RestController
