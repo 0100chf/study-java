@@ -22,17 +22,38 @@ public class EhcacheTokenManager extends TokenManager {
 	@Autowired
 	private CacheManager cacheManager;
 	
-	
-	 public  void saveTokenToCachce(TokenModel model){
-		 Element element = new Element(model.getUserId(), model.getToken());
-	      getCache().put(element);
-	 }
-	 
 
+	@Override
+	public void saveTokenToCachce(String key, TokenModel model) {
+		 Element element = new Element(key, model);
+	     getCache().put(element);
+		
+	}
+	
+	
 	private Cache getCache(){
 		return cacheManager.getCache("tokenCache");
 	}
+	
+
 	@Override
+	public TokenModel getTokenModelByCachce(String key) {
+		Element element=getCache().get(key);
+		if(element!=null){
+			TokenModel tm=(TokenModel)element.getObjectValue();
+			if(tm!=null){
+				//如果验证成功，说明此用户进行了一次有效操作，延长token的过期时间
+				getCache().replace(element);
+			}
+			return tm;
+		}else{
+			return null;
+		}
+		
+	}
+	
+	
+/*	@Override
 	public boolean checkToken(TokenModel model) {
 		 if (model == null) {
 	            return false;
@@ -51,11 +72,13 @@ public class EhcacheTokenManager extends TokenManager {
 			getCache().replace(element);
 	        
 	        return true;
-	}
+	}*/
 
 	@Override
-	public void deleteTokenByCache(String userId){
-		 getCache().remove(userId);
+	public void deleteTokenByCache(String key){
+		 getCache().remove(key);
 	}
+
+
 
 }

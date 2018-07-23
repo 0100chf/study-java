@@ -77,7 +77,7 @@ public class CityService {
    * @return
    *//*
   public boolean someOpration(long id) {
-    // XXX 示例代码
+ 
     int opType = getSomeFlag();
 
     // 校验通过后打印重要的日志

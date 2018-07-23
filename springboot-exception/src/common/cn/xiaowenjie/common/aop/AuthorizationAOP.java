@@ -40,10 +40,10 @@ public class AuthorizationAOP {
 		HttpServletRequest request = requestAttributes.getRequest();
 		String authorization = request.getHeader(Constants.AUTHORIZATION);
 		// 验证token
-		TokenModel model = manager.getToken(authorization);
-		if (manager.checkToken(model)) {
+		if (manager.checkToken(authorization)) {
 			// 如果token验证成功，将token对应的用户id存在request中，便于之后注入
-			request.setAttribute(Constants.CURRENT_USER_ID, model.getUserId());
+			String key=manager.getKeyBytokenStr(authorization);
+			request.setAttribute(Constants.CURRENT_USER_ID, key);
 		} else {
 			throw new UnloginException();
 		}

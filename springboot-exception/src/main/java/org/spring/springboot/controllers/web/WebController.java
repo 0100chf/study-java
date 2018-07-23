@@ -52,6 +52,9 @@ public class WebController {
      })
    @AuthorizationAnno
     public String index() {
-   	   return "index2";
+   	   return "index";
    }
+   
+   
+   
 }

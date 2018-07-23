@@ -2,18 +2,14 @@ package cn.xiaowenjie.common.exceptions;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.shiro.authz.UnauthorizedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.spring.springboot.shiro.config.ShiroConfig;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.NoHandlerFoundException;
 
-import cn.xiaowenjie.common.result.ResultBean;
 import cn.xiaowenjie.common.result.ResultStatus;
-import cn.xiaowenjie.common.utils.CheckUtil;
-import cn.xiaowenjie.common.utils.UserUtil;
 
 /**
  * 捕捉自定义异常后统一处理
@@ -33,22 +29,23 @@ public class GlobalExceptionHandler {
         
     	logger.info("GlobalExceptionHandler.handlerException().............");
     	if(exception instanceof NoHandlerFoundException){
-    		String errorMessage=CheckUtil.getResources().getMessage("interface.no.found",null, UserUtil.getLocale());
+    		//String errorMessage=CheckUtil.getResources().getMessage("interface.no.found",null, UserUtil.getLocale());
     		
-    		//ResultBean r=new ResultBean(errorMessage,ResultBean.NO_FOUND);
-    		return new ResultBean(new ResultStatus(errorMessage,ResultStatus.NO_FOUND),HttpStatus.NOT_FOUND);
-    		//return new ResultBean(errorMessage,ResultBean.NO_FOUND,HttpStatus.NOT_FOUND);
-    		//return new ResponseEntity<>(r,HttpStatus.NOT_FOUND);
+    		//return new ResultBean(new ResultStatus(errorMessage,ResultStatus.NO_FOUND),HttpStatus.NOT_FOUND);
+    		return ResultStatus.exceptionResult(ResultStatus.NO_FOUND);
     	}else if(exception instanceof UnloginException){
-    		String errorMessage=CheckUtil.getResources().getMessage("user.not.login",null, UserUtil.getLocale());
-    		return new ResultBean(new ResultStatus(errorMessage,ResultStatus.NO_LOGIN),HttpStatus.UNAUTHORIZED);
-    	}else{
-    		//ResultBean r= new ResultBean(exception.fillInStackTrace());
+    		//String errorMessage=CheckUtil.getResources().getMessage("user.not.login",null, UserUtil.getLocale());
+    		//return new ResultBean(new ResultStatus(errorMessage,ResultStatus.NO_LOGIN),HttpStatus.UNAUTHORIZED);
     		
-    	//	ResultBean r=new ResultBean(new ResultStatus(exception.fillInStackTrace().toString(),ResultStatus.FAIL));
-    		return new ResultBean(new ResultStatus(exception.fillInStackTrace().toString(),ResultStatus.FAIL),HttpStatus.INTERNAL_SERVER_ERROR);
-    		//return new ResultBean(exception.fillInStackTrace().toString(),ResultBean.FAIL);
-    	//	return new ResponseEntity<>(r,HttpStatus.INTERNAL_SERVER_ERROR);
+    		return ResultStatus.exceptionResult(ResultStatus.NO_LOGIN);
+    	}else if(exception instanceof UnauthorizedException){
+    		//String errorMessage=CheckUtil.getResources().getMessage("user.not.permission",null, UserUtil.getLocale());
+    		//return new ResultBean(new ResultStatus(errorMessage,ResultStatus.NO_PERMISSION),HttpStatus.UNAUTHORIZED);
+    		return ResultStatus.exceptionResult(ResultStatus.NO_PERMISSION);
+    	}
+    	else{
+    		//return new ResultBean(new ResultStatus(exception.fillInStackTrace().toString(),ResultStatus.FAIL),HttpStatus.INTERNAL_SERVER_ERROR);
+    		return ResultStatus.exceptionResult(exception.fillInStackTrace().toString());
     	}
     }
     

@@ -23,5 +23,6 @@ public class ResultBean<T> extends ResponseEntity<T>{
 		this.data = body;
 	}
 	
+	
 
 }

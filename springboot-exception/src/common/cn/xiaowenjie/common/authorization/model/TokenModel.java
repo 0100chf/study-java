@@ -1,5 +1,7 @@
 package cn.xiaowenjie.common.authorization.model;
 
+import java.io.Serializable;
+
 import lombok.Data;
 
 /**
@@ -9,21 +11,25 @@ import lombok.Data;
  */
 
 @Data
-public class TokenModel {
+public class TokenModel implements Serializable {
 
-    //用户id
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -1678904496256122864L;
+
+	//用户id
     private String userId;
 
-    //随机生成的uuid
-    private String token;
-
     //用户帐号或名字
-    private String userName;
+    private String account;
     
-    public TokenModel(String userId, String token,String userName) {
-        this.userId = userId;
-        this.token = token;
-        this.userName=userName;
-    }
-
+    //用户名字
+    private String name;
+    
+    //用户其他信息
+    private Object data;
+    
+    //由key来找到缓存里面对应的TokenModel对象
+    private String key;
 }

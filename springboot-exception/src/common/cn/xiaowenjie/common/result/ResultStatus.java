@@ -1,5 +1,9 @@
 package cn.xiaowenjie.common.result;
 
+import org.springframework.http.HttpStatus;
+
+import cn.xiaowenjie.common.utils.CheckUtil;
+import cn.xiaowenjie.common.utils.UserUtil;
 import lombok.Data;
 
 @Data
@@ -11,7 +15,11 @@ public class ResultStatus {
 	
 	public static final int NO_LOGIN = 2;
 
-	public static final int NO_PERMISSION = 403;
+	public static final int INCORRECT_LOGIN = 3;
+	
+	public static final int VERICODE_ERROR = 4;
+	
+	public static final int NO_PERMISSION = 401;
 	
 	public static final int NO_FOUND = 404;
 
@@ -32,5 +40,43 @@ public class ResultStatus {
 	public ResultStatus(String msg ,int code ){
 		this.msg=msg;
 		this.errorCode=code;
+	}
+	
+	
+	public static ResultBean exceptionResult(int status){
+		String errorMessage="";
+		ResultBean r=null;
+		switch (status) {
+		case NO_FOUND://404接口错误
+			errorMessage=CheckUtil.getResources().getMessage("interface.no.found",null, UserUtil.getLocale());
+			r=new ResultBean(new ResultStatus(errorMessage,ResultStatus.NO_FOUND),HttpStatus.NOT_FOUND);
+			break;
+		
+		case NO_LOGIN://未登录
+			errorMessage=CheckUtil.getResources().getMessage("user.not.login",null, UserUtil.getLocale());
+			r=new ResultBean(new ResultStatus(errorMessage,ResultStatus.NO_LOGIN),HttpStatus.UNAUTHORIZED);
+			break;
+			
+		case NO_PERMISSION: //用户没有权限
+			errorMessage=CheckUtil.getResources().getMessage("user.not.permission",null, UserUtil.getLocale());
+    		r=new ResultBean(new ResultStatus(errorMessage,ResultStatus.NO_PERMISSION),HttpStatus.UNAUTHORIZED);
+    		break;
+		
+		case INCORRECT_LOGIN://帐号密码错误
+			errorMessage=CheckUtil.getResources().getMessage("user.login.error",null, UserUtil.getLocale());
+			r=new ResultBean(new ResultStatus(errorMessage,ResultStatus.INCORRECT_LOGIN),HttpStatus.NOT_ACCEPTABLE);
+			break;
+		case VERICODE_ERROR://验证码错误
+			errorMessage=CheckUtil.getResources().getMessage("user.login.vericode.error",null, UserUtil.getLocale());
+			r=new ResultBean(new ResultStatus(errorMessage,ResultStatus.VERICODE_ERROR),HttpStatus.NOT_ACCEPTABLE);
+		default:
+			break;
+		}
+		
+		return r;
+	}
+	
+	public static ResultBean exceptionResult(String exceptionStr){
+		return new ResultBean(new ResultStatus(exceptionStr,ResultStatus.FAIL),HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 }

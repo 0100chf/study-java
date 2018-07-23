@@ -1,6 +1,6 @@
 package cn.xiaowenjie.common.authorization.interceptor;
 
-import org.spring.springboot.model.User;
+import org.spring.springboot.model.UserInfo;
 import org.spring.springboot.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.MethodParameter;
@@ -30,7 +30,7 @@ public class CurrentUserMethodArgumentResolver implements HandlerMethodArgumentR
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
         //如果参数类型是User并且有CurrentUser注解则支持
-        if (parameter.getParameterType().isAssignableFrom(User.class) &&
+        if (//parameter.getParameterType().isAssignableFrom(UserInfo.class) &&
                 parameter.hasParameterAnnotation(CurrentUser.class)) {
             return true;
         }
