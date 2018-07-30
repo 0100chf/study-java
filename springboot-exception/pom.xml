@@ -5,8 +5,8 @@
 
 	<groupId>springboot</groupId>
 	<artifactId>springboot-exception</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
-	<name>springboot-exception</name>
+	<version>0.0.0719-SNAPSHOT</version>
+	<name>springboot-exception-0719</name>
 
 	<!-- Spring Boot 启动父依赖 -->
 	<parent>
