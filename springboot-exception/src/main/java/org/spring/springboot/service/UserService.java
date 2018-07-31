@@ -64,6 +64,7 @@ public class UserService {
 		
 		UserInfo user = userRepository.findByUsername(username);
 		TokenModel tm = new TokenModel();
+		tm.setKey(user.getUid());
 		tm.setAccount(username);
 		tm.setUserId(user.getUid());
 		return tokenManager.saveToken(tm);
