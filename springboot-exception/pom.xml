@@ -5,8 +5,8 @@
 
 	<groupId>springboot</groupId>
 	<artifactId>springboot-exception</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
-	<name>springboot-exception</name>
+	<version>0.0.0719-SNAPSHOT</version>
+	<name>springboot-exception-0719</name>
 
 	<!-- Spring Boot 启动父依赖 -->
 	<parent>
@@ -39,27 +39,17 @@
 				<artifactId>spring-boot-starter-logging</artifactId> </exclusion> </exclusions> -->
 		</dependency>
 
-		<!-- 页面模板引擎thymeleaf配置 -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-thymeleaf</artifactId>
 		</dependency>
 
-		<dependency>
-			<groupId>net.sourceforge.nekohtml</groupId>
-			<artifactId>nekohtml</artifactId>
-		</dependency>
-		
 		<!-- Spring Boot aop依赖 -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-aop</artifactId>
 		</dependency>
 
-		<dependency>
-            <groupId>org.aspectj</groupId>
-            <artifactId>aspectjweaver</artifactId>
-        </dependency>
 		<!--添加热部署依赖 -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -80,10 +70,8 @@
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
-			<!-- <version>5.1.35</version> -->
-			<scope>runtime</scope>
+			<version>5.1.35</version>
 		</dependency>
-		
 		<!--Redis -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -130,12 +118,6 @@
 			<artifactId>junit</artifactId>
 			<version>4.12</version>
 		</dependency>
-		
-		<dependency>
-			<groupId>org.apache.shiro</groupId>
-			<artifactId>shiro-spring</artifactId>
-			<version>1.4.0</version>
-		</dependency>
 	</dependencies>
 
 	<build>
@@ -153,3 +135,4 @@
 	</build>
 
 </project>
+
