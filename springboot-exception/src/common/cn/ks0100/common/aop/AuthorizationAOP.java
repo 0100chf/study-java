@@ -28,7 +28,7 @@ import cn.ks0100.common.exceptions.UnloginException;
 //@Component
 public class AuthorizationAOP {
 
-	@Autowired
+	//@Autowired
 	private TokenManager manager;
 
 	private static final Logger logger = LoggerFactory.getLogger(AuthorizationAOP.class);

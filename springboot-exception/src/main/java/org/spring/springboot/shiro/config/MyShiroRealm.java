@@ -21,12 +21,15 @@ import org.spring.springboot.model.SysPermission;
 import org.spring.springboot.model.SysRole;
 import org.spring.springboot.model.UserInfo;
 import org.spring.springboot.service.UserService;
+import org.springframework.context.annotation.Lazy;
 
 public class MyShiroRealm extends AuthorizingRealm {
 	
 	private static final Logger logger = LoggerFactory.getLogger(MyShiroRealm.class);
 	
+	
     @Resource
+    @Lazy
     private UserService userService;
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals){
@@ -69,7 +72,7 @@ public class MyShiroRealm extends AuthorizingRealm {
 	    	  //
 	    	 SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(
 	    			 //user.getUsername(), //帐号
-	    			 user,
+	    			 user, //放入user，就当作shiro的session value用，这里最好把user类导入到另外一个shirouser类，作为session使用。
 	    			 user.getPassword(), //密码
 	                 ByteSource.Util.bytes(user.getCredentialsSalt()),//salt=username+salt
 	                 getName()  //realm name

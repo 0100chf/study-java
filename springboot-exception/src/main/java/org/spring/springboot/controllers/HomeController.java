@@ -99,8 +99,8 @@ public class HomeController {
 	 @RequestMapping(value = "/app/login", method = RequestMethod.POST)
 	 @ResponseBody
 	 @ApiOperation(value = "登录")
-	 public ResultBean<TokenModel> appLogin(@RequestParam String username, @RequestParam String password){
-	    	return new ResultBean<TokenModel>(userService.loginUser(username,password));
+	 public ResultBean<String> appLogin(@RequestParam String username, @RequestParam String password){
+	    	return new ResultBean<String>(userService.loginUser(username,password));
 	}
 	 
 	/**

@@ -1,15 +1,20 @@
 package org.spring.springboot.controllers.app;
 
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.spring.springboot.model.City;
+import org.spring.springboot.model.UserInfo;
 import org.spring.springboot.service.CityService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import cn.ks0100.common.result.ResultBean;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 
 @RequestMapping("/app")
 @RestController
@@ -42,4 +47,20 @@ public class AppController{
     	return new ResultBean<City>(cityService.getCity(cityName));
     }
     
+    /**
+     * 用户查询
+     * @return
+     */
+    @RequestMapping(value="/userList",method=RequestMethod.GET)
+    @RequiresPermissions("userInfo:view")
+    @ApiOperation(value = "用户查询")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "authorization", value = "", required = true, dataType = "string", paramType = "header"),
+    })
+    public ResultBean<String> userInfo(){
+    	
+    	UserInfo currentUser = (UserInfo) SecurityUtils.getSubject().getPrincipal();
+    	
+        return new ResultBean<String>(currentUser.getName());
+    }
 }

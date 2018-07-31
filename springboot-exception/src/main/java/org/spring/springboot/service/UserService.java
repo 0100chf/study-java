@@ -1,7 +1,8 @@
 package org.spring.springboot.service;
 
-import static cn.ks0100.common.utils.CheckUtil.check;
 import static cn.ks0100.common.utils.CheckUtil.notEmpty;
+
+import java.io.Serializable;
 
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationToken;
@@ -14,9 +15,6 @@ import org.spring.springboot.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import cn.ks0100.common.authorization.manager.TokenManager;
-import cn.ks0100.common.authorization.model.TokenModel;
-
 @Service
 public class UserService {
 
@@ -24,8 +22,8 @@ public class UserService {
 	@Autowired
     private UserRepository userRepository;
 	
-    @Autowired
-    private TokenManager tokenManager;
+   // @Autowired
+   // private TokenManager tokenManager;
     
 /*	public TokenModel loginUser2(String username,String password){
 		 notEmpty(username, "user.username.input");
@@ -43,7 +41,7 @@ public class UserService {
 		 
 	}*/
 	
-	public TokenModel loginUser(String username, String password) {
+	public String loginUser(String username, String password) {
 		
 		logger.info("进入UserService.loginUser()。。。。。。。。。。。。");
 		notEmpty(username, "user.username.input");
@@ -62,11 +60,14 @@ public class UserService {
 		
 		subject.hasRole("system");
 		
-		UserInfo user = userRepository.findByUsername(username);
-		TokenModel tm = new TokenModel();
-		tm.setAccount(username);
-		tm.setUserId(user.getUid());
-		return tokenManager.saveToken(tm);
+		//UserInfo user = userRepository.findByUsername(username);
+		//TokenModel tm = new TokenModel();
+		//tm.setAccount(username);
+		//tm.setUserId(user.getUid());
+		//return tm;
+		//return tokenManager.saveToken(tm);
+		//成功返回sessionid给移动端
+		return subject.getSession().getId().toString();
 
 	}
 	
@@ -82,7 +83,7 @@ public class UserService {
 		
 		 notEmpty(userId, "user.userid.input");
 		 
-		tokenManager.deleteToken(userId);
+		//tokenManager.deleteToken(userId);
 		return true;
 	}
 	
