@@ -49,17 +49,4 @@
     <cacheManagerPeerListenerFactory
      	class="org.terracotta.ehcachedx.monitor.probe.ProbePeerListenerFactory"
     	properties="monitorAddress=127.0.0.1, monitorPort=9889, memoryMeasurement=true" /> 
-    	   
-<!--     <cache name="users"
-           maxEntriesLocalHeap="200"
-           timeToLiveSeconds="600">
-    </cache>
-
-	<cache name="tokenCache" 
-			maxElementsInMemory="100000"
-			eternal="false" 
-			timeToIdleSeconds="600" 
-			timeToLiveSeconds="0"
-			overflowToDisk="true"
-		 /> -->
 </ehcache>
