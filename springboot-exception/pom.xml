@@ -106,6 +106,12 @@
 			<artifactId>fastjson</artifactId>
 			<version>1.2.47</version>
 		</dependency>
+		<!--添加shiro依赖 -->
+		<dependency>
+			<groupId>org.apache.shiro</groupId>
+			<artifactId>shiro-spring</artifactId>
+			<version>1.4.0</version>
+		</dependency>
 		
 		<!--添加ehcache依赖 -->
 		<dependency>
@@ -116,7 +122,6 @@
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>4.12</version>
 		</dependency>
 	</dependencies>
 
