@@ -29,22 +29,17 @@ public class GlobalExceptionHandler {
         
     	logger.info("GlobalExceptionHandler.handlerException().............");
     	if(exception instanceof NoHandlerFoundException){
-    		//String errorMessage=CheckUtil.getResources().getMessage("interface.no.found",null, UserUtil.getLocale());
     		
-    		//return new ResultBean(new ResultStatus(errorMessage,ResultStatus.NO_FOUND),HttpStatus.NOT_FOUND);
     		return ResultStatus.exceptionResult(ResultStatus.NO_FOUND);
-    	}else if(exception instanceof UnloginException){
-    		//String errorMessage=CheckUtil.getResources().getMessage("user.not.login",null, UserUtil.getLocale());
-    		//return new ResultBean(new ResultStatus(errorMessage,ResultStatus.NO_LOGIN),HttpStatus.UNAUTHORIZED);
+    	}
+    	//else if(exception instanceof UnloginException){
     		
-    		return ResultStatus.exceptionResult(ResultStatus.NO_LOGIN);
-    	}else if(exception instanceof UnauthorizedException){
-    		//String errorMessage=CheckUtil.getResources().getMessage("user.not.permission",null, UserUtil.getLocale());
-    		//return new ResultBean(new ResultStatus(errorMessage,ResultStatus.NO_PERMISSION),HttpStatus.UNAUTHORIZED);
+    		//return ResultStatus.exceptionResult(ResultStatus.NO_LOGIN);
+    	//}
+    	else if(exception instanceof UnauthorizedException){
     		return ResultStatus.exceptionResult(ResultStatus.NO_PERMISSION);
     	}
     	else{
-    		//return new ResultBean(new ResultStatus(exception.fillInStackTrace().toString(),ResultStatus.FAIL),HttpStatus.INTERNAL_SERVER_ERROR);
     		return ResultStatus.exceptionResult(exception.fillInStackTrace().toString());
     	}
     }

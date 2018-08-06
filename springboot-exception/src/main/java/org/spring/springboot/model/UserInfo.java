@@ -18,7 +18,11 @@ import lombok.Setter;
 @Getter
 @Entity
 public class UserInfo implements Serializable {
-    @Id
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -440859312048798108L;
+	@Id
     @GeneratedValue
     private String uid;
     @Column(unique =true)
@@ -40,7 +44,7 @@ public class UserInfo implements Serializable {
      */
     public String getCredentialsSalt(){
       //  return this.username+this.salt;
-    	return "admin"+this.salt;
+    	return "admin"+this.salt;//只是为了vip用户也能使用admin的密码。
     }
     //重新对盐重新进行了定义，用户名+salt，这样就更加不容易被破解
 }

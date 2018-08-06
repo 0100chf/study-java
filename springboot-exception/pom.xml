@@ -108,13 +108,20 @@
 			<version>2.7.0</version>
 		</dependency>
 		<!-- fastjson阿里巴巴jSON处理器 -->
-		<dependency>
+<!-- 		<dependency>
 			<groupId>com.alibaba</groupId>
 			<artifactId>fastjson</artifactId>
 			<version>1.2.47</version>
-		</dependency>
+		</dependency> -->
 		
-		 <!-- spring cache -->
+		<!--添加shiro依赖 -->
+		<dependency>
+            <groupId>org.apache.shiro</groupId>
+            <artifactId>shiro-spring-boot-starter</artifactId>
+            <version>1.4.0</version>
+		</dependency>
+        
+         <!-- spring cache -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-cache</artifactId>
@@ -124,21 +131,13 @@
  		<dependency>
     		<groupId>net.sf.ehcache</groupId>
    		 <artifactId>ehcache</artifactId>
-		</dependency>  
-		
-		
-		<!--添加shiro依赖 -->
+		</dependency> 
+		 <!--shiro集成ehcache -->
 		<dependency>
-            <groupId>org.apache.shiro</groupId>
-            <artifactId>shiro-spring-boot-starter</artifactId>
-            <version>1.4.0</version>
-		</dependency>
-         <dependency>
             <groupId>org.apache.shiro</groupId>
             <artifactId>shiro-ehcache</artifactId>
             <version>1.4.0</version>
         </dependency>
-        
 		<!--Redis -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -158,17 +157,16 @@
     		 </exclusions>
 		</dependency>
         <!-- shiro-thymeleaf -->
-		<dependency>
+<!-- 		<dependency>
 			<groupId>com.github.theborakompanioni</groupId>
 			<artifactId>thymeleaf-extras-shiro</artifactId>
 			<version>2.0.0</version>
-		</dependency>
+		</dependency> -->
 		
 		<!-- Junit -->
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>4.12</version>
 		</dependency>
 		
 	</dependencies>

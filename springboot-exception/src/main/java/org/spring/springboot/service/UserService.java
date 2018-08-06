@@ -2,14 +2,13 @@ package org.spring.springboot.service;
 
 import static cn.ks0100.common.utils.CheckUtil.notEmpty;
 
-import java.io.Serializable;
-
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.slf4j.MDC;
 import org.spring.springboot.model.UserInfo;
 import org.spring.springboot.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,28 +17,11 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserService {
 
+	public static final String KEY_USER = "user";
 	private Logger logger = LoggerFactory.getLogger(getClass());
 	@Autowired
     private UserRepository userRepository;
 	
-   // @Autowired
-   // private TokenManager tokenManager;
-    
-/*	public TokenModel loginUser2(String username,String password){
-		 notEmpty(username, "user.username.input");
-		 notEmpty(password, "user.password.input");
-		 
-		 UserInfo user=userRepository.findByUsername(username);
-		 if (user == null || !user.getPassword().equals(password)) {  //用户未注册或密码错误
-			 check(false,"user.login.error"); 
-		 }
-		 
-		 TokenModel tm=new TokenModel();
-		 tm.setAccount(username);
-		 tm.setUserId(user.getUid());
-		 return tokenManager.saveToken(tm);
-		 
-	}*/
 	
 	public String loginUser(String username, String password) {
 		
@@ -60,12 +42,8 @@ public class UserService {
 		
 		subject.hasRole("system");
 		
-		//UserInfo user = userRepository.findByUsername(username);
-		//TokenModel tm = new TokenModel();
-		//tm.setAccount(username);
-		//tm.setUserId(user.getUid());
-		//return tm;
-		//return tokenManager.saveToken(tm);
+		// 把用户帐号放到log4j，便于日志追踪
+	    MDC.put(KEY_USER, username);
 		//成功返回sessionid给移动端
 		return subject.getSession().getId().toString();
 
@@ -81,9 +59,8 @@ public class UserService {
 	
 	public boolean deleteToken(String userId){
 		
-		 notEmpty(userId, "user.userid.input");
-		 
-		//tokenManager.deleteToken(userId);
+		notEmpty(userId, "user.userid.input");
+		MDC.remove(KEY_USER);
 		return true;
 	}
 	

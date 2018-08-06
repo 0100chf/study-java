@@ -18,7 +18,11 @@ import lombok.Setter;
 @Getter
 @Entity
 public class SysRole implements Serializable{
-    @Id@GeneratedValue
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 7161342582549836288L;
+	@Id@GeneratedValue
     private Integer id; // 编号
     private String role; // 角色标识程序中判断使用,如"admin",这个是唯一的:
     private String description; // 角色描述,UI界面显示使用

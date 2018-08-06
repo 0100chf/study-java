@@ -45,7 +45,7 @@
            overflowToDisk="false"
            statistics="true">
     </cache>
-        
+     <!-- 使用ehcache-monitor-kit-1.0.3 -->
     <cacheManagerPeerListenerFactory
      	class="org.terracotta.ehcachedx.monitor.probe.ProbePeerListenerFactory"
     	properties="monitorAddress=127.0.0.1, monitorPort=9889, memoryMeasurement=true" /> 

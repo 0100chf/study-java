@@ -10,11 +10,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import cn.ks0100.common.authorization.model.TokenModel;
 import cn.ks0100.common.result.ResultBean;
 import cn.ks0100.common.result.ResultStatus;
 import cn.ks0100.common.utils.CheckUtil;
-import cn.ks0100.common.utils.UserUtil;
+import cn.ks0100.common.utils.LocalUtil;
 import io.swagger.annotations.ApiOperation;
 
 /**
@@ -111,9 +110,9 @@ public class HomeController {
 	@ResponseBody
 	public ResponseEntity<ResultStatus> unlogin() {
 		ResultStatus s = new ResultStatus();
-		String errorMessage = CheckUtil.getResources().getMessage("user.app.not.login", null, UserUtil.getLocale());
+		String errorMessage = CheckUtil.getResources().getMessage("user.app.not.login", null, LocalUtil.getLocale());
 		s.setMsg(errorMessage);
-		s.setErrorCode(ResultStatus.NO_LOGIN);
+		s.setMsgCode(ResultStatus.NO_LOGIN);
 
 		return new ResponseEntity<ResultStatus>(s, HttpStatus.UNAUTHORIZED);
 	}

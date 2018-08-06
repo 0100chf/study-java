@@ -40,6 +40,6 @@ public class CheckUtil {
 	}
 
 	private static void fail(String msgKey, Object... args) {
-		throw new CheckException(resources.getMessage(msgKey, args, UserUtil.getLocale()));
+		throw new CheckException(resources.getMessage(msgKey, args, LocalUtil.getLocale()));
 	}
 }

@@ -6,13 +6,13 @@ import java.util.Map;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.cache.CacheManager;
 import org.apache.shiro.mgt.SecurityManager;
+import org.apache.shiro.session.mgt.SessionManager;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.ehcache.EhCacheManagerFactoryBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,13 +20,13 @@ import org.springframework.context.annotation.DependsOn;
 
 
 
-@Configuration
-public class ShiroConfig_ehcache {
+//@Configuration
+public class EhcacheShiroConfig {
 	
-	private static final Logger logger = LoggerFactory.getLogger(ShiroConfig_ehcache.class);
+	private static final Logger logger = LoggerFactory.getLogger(EhcacheShiroConfig.class);
 	
-	 @Value("${my.ehcache..config}")
-	 private String ehcacheXml;
+	// @Value("${my.ehcache..config}")
+	// private String ehcacheXml;
 	 
 	@Bean
 	public ShiroFilterFactoryBean shirFilter(SecurityManager securityManager) {
@@ -111,11 +111,10 @@ public class ShiroConfig_ehcache {
      * @return
      */
     @Bean
-    public ShiroSpringCacheManager shiroSpringCacheManager(org.springframework.cache.CacheManager cacheManager) {
-        return new ShiroSpringCacheManager(cacheManager);
+    public EhcacheShiroManager shiroSpringCacheManager(org.springframework.cache.CacheManager cacheManager) {
+        return new EhcacheShiroManager(cacheManager);
     }
     
-
     /**
      * 安全管理器
      * 注：使用shiro-spring-boot-starter 1.4时，返回类型是SecurityManager会报错，直接引用shiro-spring则不报错

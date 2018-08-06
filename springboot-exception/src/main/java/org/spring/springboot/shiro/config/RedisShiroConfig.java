@@ -18,9 +18,9 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-//@Configuration
-public class ShiroConfig_redis {
-	private static final Logger logger = LoggerFactory.getLogger(ShiroConfig_redis.class);
+@Configuration
+public class RedisShiroConfig {
+	private static final Logger logger = LoggerFactory.getLogger(RedisShiroConfig.class);
 	
 	 
 	@Bean
@@ -92,16 +92,6 @@ public class ShiroConfig_redis {
 	@Bean
 	public MyShiroRealm myShiroRealm(){
 		MyShiroRealm myShiroRealm = new MyShiroRealm(redisCacheManager(),hashedCredentialsMatcher());
-		//myShiroRealm.setCredentialsMatcher(hashedCredentialsMatcher());
-		//myShiroRealm.setCacheManager(ehCacheManager());
-		
-		/*myShiroRealm.setCachingEnabled(true);
-		
-		myShiroRealm.setAuthenticationCacheName("authenticationCache");
-		myShiroRealm.setAuthenticationCachingEnabled(true);
-		
-		myShiroRealm.setAuthorizationCacheName("authorizationCache");
-		myShiroRealm.setAuthorizationCachingEnabled(true);*/
 		
 		return myShiroRealm;
 	}
@@ -172,7 +162,7 @@ public class ShiroConfig_redis {
    //自定义sessionManager
    @Bean
    public SessionManager sessionManager() {
-       MySessionManager mySessionManager = new MySessionManager();
+       RedisSessionManager mySessionManager = new RedisSessionManager();
 		mySessionManager.setSessionDAO(redisSessionDAO());
        return mySessionManager;
    }

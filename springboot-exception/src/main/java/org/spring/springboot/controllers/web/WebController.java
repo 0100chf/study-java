@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import cn.ks0100.common.aop.AuthorizationAnno;
 import cn.ks0100.common.aop.WebControllerAnno;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -50,7 +49,6 @@ public class WebController {
      @ApiImplicitParams({
              @ApiImplicitParam(name = "authorization", value = "authorization", required = true, dataType = "string", paramType = "header"),
      })
-   @AuthorizationAnno
     public String index() {
    	   return "index";
    }

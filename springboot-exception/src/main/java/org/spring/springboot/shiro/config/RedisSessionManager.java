@@ -24,15 +24,15 @@ import org.springframework.util.StringUtils;
  * @author chen haifeng
  *
  */
-public class MySessionManager extends DefaultWebSessionManager {
+public class RedisSessionManager extends DefaultWebSessionManager {
 	 
-	private static final Logger logger = LoggerFactory.getLogger(MySessionManager.class);
+	private static final Logger logger = LoggerFactory.getLogger(RedisSessionManager.class);
 	
     private static final String AUTHORIZATION = "Authorization";
  
     private static final String REFERENCED_SESSION_ID_SOURCE = "Stateless request";
  
-    public MySessionManager() {
+    public RedisSessionManager() {
         super();
     }
  
@@ -62,8 +62,8 @@ public class MySessionManager extends DefaultWebSessionManager {
      * @return
      * @throws UnknownSessionException
      */
-   // @Override
-    protected Session retrieveSession__(SessionKey sessionKey) throws UnknownSessionException {
+    @Override
+    protected Session retrieveSession(SessionKey sessionKey) throws UnknownSessionException {
     	logger.info("retrieveSession.............");
     	
     	Serializable sessionId = getSessionId(sessionKey);

@@ -18,11 +18,11 @@ import java.util.Set;
  * @Author sgl
  * @Date 2018-06-05 11:56
  */
-public class ShiroSpringCacheManager implements CacheManager {
+public class EhcacheShiroManager implements CacheManager {
 
     private org.springframework.cache.CacheManager cacheManager;
 
-    public ShiroSpringCacheManager(org.springframework.cache.CacheManager cacheManager) {
+    public EhcacheShiroManager(org.springframework.cache.CacheManager cacheManager) {
         this.cacheManager = cacheManager;
     }
 
