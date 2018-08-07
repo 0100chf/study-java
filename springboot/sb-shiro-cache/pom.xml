@@ -4,9 +4,9 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>springboot</groupId>
-	<artifactId>springboot-exception</artifactId>
+	<artifactId>sb-shiro-cache</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>springboot-exception</name>
+	<name>sb-shiro-cache</name>
 
 	<!-- Spring Boot 启动父依赖 -->
 	<parent>
