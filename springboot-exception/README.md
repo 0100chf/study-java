@@ -132,7 +132,7 @@ crazycake 这个jar包能够实现把shiro session保存到Redis中
 ## service 规范
 
 - 进入方法后，先做数据校验，调用静态工具方法。参考CheckUtil类。
-- 在service里面打印日志，具体参考“日志打印”。
+- 在service里面打印日志，具体参考“日志打印”-“日志代码编写要求”
 
 ## 异常统一处理
 
@@ -160,15 +160,82 @@ shiro用Filter的方式对URL做统一拦截，所以没法用AOP来拦截，可
 
 ### MDC加入和删除
 
+> [log4j MDC用户操作日志追踪配置](https://blog.csdn.net/userwyh/article/details/52862216)
+
+MDC（Mapped Diagnostic Context，映射调试上下文）是 log4j 和 logback 提供的一种方便在多线程条件下记录日志的功能。 每个用户请求，都可以分为多线程，而用了MDC可以区分不同用户所对应的日志 。
+
+我们可以事先把用户的sessionId，登录用户的用户名，访问的城市id，当前访问商户id等信息定义成字段，线程开始时把值放入MDC里面，后续在其他地方就能直接使用，无需再去设置了。
+
+- MDC加入和使用
+
+  登录后加入，参考UserService类loginUser(..)方法。LOG用logback，使用MDC，见logback.xml中%X{user}，user是传入MDC的key。
+
+```java
+public static final String KEY_USER = "user";
+.......
+// 把用户帐号放到log4j，便于日志追踪
+MDC.put(KEY_USER, username);
+```
+
+```xml
+<layout class="ch.qos.logback.classic.PatternLayout">
+  			<!--格式化输出：%d表示日期，%X表示MDC定义的KEY，%thread表示线程名，%-5level：级别从左显示5个字符宽度%msg：日志消息，%n是换行符 -->
+  			<pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%X{user}] [%thread] %-5level %logger{50} -%msg%n
+  			</pattern>
+  		</layout>
+```
+
+- MDC删除
+
+  登出后删除。
+
+```java
+	public Boolean logout(){
+		Subject subject = SecurityUtils.getSubject();
+		if (subject.isAuthenticated()) {
+			subject.logout();
+			MDC.remove(KEY_USER);
+		}
+		return new Boolean(true);
+	}
+```
 
 
 ### LOG配置
 
+springboot本身集成了logback，如果要改成log4j2，要在pom.xml配置，并且注意jar冲突。
 
+log的格式参考logback.xml。
 
 ### 日志代码编写要求
 
+- controller不要打印日志、service需要打印日志。
 
+- 修改（包括新增、删除）操作必须打印日志 。
+
+- 查询不需要，如果数据量大需要。
+
+- 条件分支必须打印条件值，重要参数必须打印 
+
+  尤其是分支条件的参数，打印后就不用分析和猜测走那个分支了，很重要！如下面代码里面的userType，一定要打印值，因为他决定了代码走那个分支。 
+
+```java
+public boolean delete(long id){
+    int userType=getCurrentUserType();
+    //校验通过后打印重要的日志
+  //需要做分支判断，userType必须打印
+logger.info("delete config， id:"+id+",userType:"+userType);
+    boolean result=false;
+    if(userType==1){
+      //做这些事情
+    }else{
+      //做那些事情
+    }
+    //本方法是delete操作，所以把参数和结果打印出来
+logger.info("delete config success,id:"+id+",result:"+result);
+   return result;//示例代码
+}
+```
 
 ## 集成swagger2
 
@@ -177,18 +244,44 @@ shiro用Filter的方式对URL做统一拦截，所以没法用AOP来拦截，可
 ```java
 // 以下4句配置swagger不会被拦截的链接 顺序判断
 		filterChainDefinitionMap.put("/swagger-ui.html", "anon");
-        filterChainDefinitionMap.put("/swagger-resources/**", "anon");
-        filterChainDefinitionMap.put("/v2/api-docs", "anon");
-        filterChainDefinitionMap.put("/webjars/springfox-swagger-ui/**", "anon");
+    filterChainDefinitionMap.put("/swagger-resources/**", "anon");
+    filterChainDefinitionMap.put("/v2/api-docs", "anon");
+    filterChainDefinitionMap.put("/webjars/springfox-swagger-ui/**", "anon");
 ```
-
-
 
 ## 集成thymeleaf
 
+- 对HTML的格式要求比较严格，否则会出错。
 
+- 要结合nekohtml，否则会出错。
 
-## 集成JPA
+  nekohtml类似HtmlParse
 
+## 其他集成
 
+集成JPA、集成Lombok
 
+## 测试
+
+### 登录页面
+
+|          | web请求       | app请求                            |
+| -------- | ------------- | ---------------------------------- |
+| 登入页   | /web/to-login | /app/unlogin（返回的是未登录json） |
+| 登入请求 | /web/login    | /app/login                         |
+| 登出请求 | /web/loginout | /app/loginout                      |
+
+APP测试登录用swagger
+
+http://localhost:8080/swagger-ui.html
+
+### 测试帐号
+
+admin/123456    vip/123456
+
+admin，有查看用户userList和添加用户权限userAdd
+http://localhost:8080/userInfo/userList
+http://localhost:8080/userInfo/userAdd
+
+vip，有用户删除权限userDel
+http://localhost:8080/userInfo/userDel

@@ -42,7 +42,7 @@ public class UserService {
 		
 		subject.hasRole("system");
 		
-		// 把用户帐号放到log4j，便于日志追踪
+		// 把用户帐号放到logback，便于日志追踪
 	    MDC.put(KEY_USER, username);
 		//成功返回sessionid给移动端
 		return subject.getSession().getId().toString();
@@ -53,16 +53,17 @@ public class UserService {
 		Subject subject = SecurityUtils.getSubject();
 		if (subject.isAuthenticated()) {
 			subject.logout();
+			MDC.remove(KEY_USER);
 		}
 		return new Boolean(true);
 	}
 	
-	public boolean deleteToken(String userId){
+/*	public boolean deleteToken(String userId){
 		
 		notEmpty(userId, "user.userid.input");
 		MDC.remove(KEY_USER);
 		return true;
-	}
+	}*/
 	
 	public UserInfo findByUsername(String username) {
 		notEmpty(username, "user.username.input");
