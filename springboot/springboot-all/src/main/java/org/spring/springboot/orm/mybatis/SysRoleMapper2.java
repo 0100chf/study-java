@@ -35,4 +35,5 @@ public interface SysRoleMapper2 {
 	 * @return
 	 */
 	List<SysRole> selectRolesByUserAndRole(@Param("user")User user, @Param("role")SysRole role);
+	
 }

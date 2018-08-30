@@ -6,20 +6,32 @@
 - [ ] mybatis插件1 pagehelper插件、通用mapper插件
 - [ ] mybatis插件2 mybatisplus 
 - [ ] 多数据源
+- [ ] Flyway数据库版本控制器？
+- [ ] Restful
+- [ ] Thymeleaf
+- [ ] Freemarker
+- [ ] 整合swagger2
 - [ ] 异常统一处理，包含接口异常和页面异常
 - [ ] 整合mock测试，接口测试和页面测试?
-- [ ] 整合swagger2
 - [ ] 整合代码扫描 sonar?
-- [ ] 整合多环境及打包
+- [ ] 整合多环境及打包？
 - [ ] 连接缓存 redis
+- [ ] 连接缓存ehcache
+- [ ] 连接Mongodb？
+- [ ] LDAP？
+- [ ] 日志
 - [ ] 集成shiro
+- [ ] 集成JWT
 - [ ] 事务
-- [ ] 多线程
+- [ ] 异步调用、多线程
 - [ ] 定时任务?
 - [ ] 邮件发送?
 - [ ] 消息服务?
+- [ ] 使用Spring StateMachine框架实现状态机
+- [ ] 后台运行
+- [ ] 自定义Banner
 
-## ORM
+## 关系型数据库访问
 
 ### Jdbctemplate
 
@@ -93,8 +105,8 @@ Maven
 
 ```xml
 <dependency>
-		<groupId>org.springframework.boot</groupId>
-		<artifactId>spring-boot-starter-data-jpa</artifactId>
+	<groupId>org.springframework.boot</groupId>
+	<artifactId>spring-boot-starter-data-jpa</artifactId>
 </dependency>
 <!-- mysql-connector-java 参考Jdbctemplate -->
 ```
@@ -144,45 +156,43 @@ JpaRepository 是继承自 PagingAndSortingRepository 的针对 JPA 技术提供
 
 > org.spring.springboot.jpa.JpaTests
 
-
-
 ### Mybatis
 
 #### mybatis与spring集成的几种方式
 
-	使用 MyBatis 的主要 Java 接口就是 SqlSession，会用SqlSessionFactory 对象包含创建 SqlSession 实例，并加载数据库配置文件（如mybatis-config.xml）。但是当 Mybatis 与一些依赖注入框架（如 Spring 或者 Guice）同时使用时，SqlSessions 将被依赖注入框架所创建，所以你不需要使用SqlSessionFactory-Builder 或者 SqlSessionFactory，特别是spring boot更加简单，可以直接在application文件中配置数据库，并用注解方式映射数据库查询。
+使用 MyBatis 的主要 Java 接口就是 SqlSession，会用SqlSessionFactory 对象包含创建 SqlSession 实例，并加载数据库配置文件（如mybatis-config.xml）。但是当 Mybatis 与一些依赖注入框架（如 Spring 或者 Guice）同时使用时，SqlSessions 将被依赖注入框架所创建，所以你不需要使用SqlSessionFactory-Builder 或者 SqlSessionFactory，特别是spring boot更加简单，可以直接在application文件中配置数据库，并用注解方式映射数据库查询。
 
 
-- A. 使用SqlSession读取配置文件mybatis-config.xml，用mapper/*.xml映射数据库字段
+A. 使用SqlSession读取配置文件mybatis-config.xml，用mapper/*.xml映射数据库字段
 
   --适合junit测试
 
-1. B.spring 容器加载 SqlSession，读取配置文件mybatis-config.xml，用mapper/*.xml映射数据库字段
+B.spring 容器加载 SqlSession，读取配置文件mybatis-config.xml，用mapper/*.xml映射数据库字段
 
    --适合web项目
 
-1. C.spring 容器加载 SqlSession，读取配置文件mybatis-config.xml，用注解方式映射数据库字段
+C.spring 容器加载 SqlSession，读取配置文件mybatis-config.xml，用注解方式映射数据库字段
 
    --适合web项目
 
-1. D.springboot 加载mybatis，在application 文件中配置，用注解方式映射数据库字段
+D.springboot 加载mybatis，在application 文件中配置，用注解方式映射数据库字段。
 
-   -- 如果用application 文件配置就不要配置mybatis-config.xml，会出现配置属性重复错误。
+   <u>如果用application 文件配置就不要配置mybatis-config.xml，会出现配置属性重复错误。</u>
 
    --适合web项目和测试
 
-1. E.springboot 加载mybatis，在application 文件中加载mybatis-config.xml，配置文件还写在mybatis-config.xml，用xml 映射数据库字段。application文件只配数据源并加载mybatis-config.xml与mapper/*.xml。
+E.springboot 加载mybatis，在application 文件中加载mybatis-config.xml，配置文件还写在mybatis-config.xml，用xml 映射数据库字段。application文件只配数据源并加载mybatis-config.xml与mapper/*.xml。
 
    **--最佳实践。**这样sql不要用字符串拼接。适合web项目，测试。
 
-1. F.springboot 加载mybatis，在application 文件中加载mybatis-config.xml，配置文件还写在mybatis-config.xml，用注解方式映射数据库字段
+F.springboot 加载mybatis，在application 文件中加载mybatis-config.xml，配置文件还写在mybatis-config.xml，用注解方式映射数据库字段
 
    --适合web项目，测试
 
    <u>注意注解方式映射和xml映射数据库不要混在一起用，会出现取不到数据问题。</u>
 
-1. G.springboot 加载mybatis，也可以用application文件配置，mapper/*.xml映射数据库字段，不用mybatis-config.xml。
-2. application文件配置的属性参考资料比较少，不推荐。
+G.springboot 加载mybatis，也可以用application文件配置，mapper/*.xml映射数据库字段，不用mybatis-config.xml。
+application文件配置的属性参考资料比较少，不推荐。
 
 #### 配置
 
@@ -267,11 +277,188 @@ mybatis-config.xml文件配置<settings>、<typeAliases>
 >
 > org.spring.springboot.orm.mybatis.SysRoleMapper2
 
+#### 测试
+
+> org.spring.springboot.mybatis.MybatisTests
+
 ### mybatis插件1 pagehelper插件、通用mapper插件
 
+#### pagehelper插件
 
+用该插件解决物理分页，分页插件支持任何复杂的单表、多表分页，部分特殊情况请看[重要提示](https://github.com/pagehelper/Mybatis-PageHelper/blob/master/wikis/zh/Important.md)。
 
+> [官网](https://github.com/pagehelper/Mybatis-PageHelper/blob/master/wikis/zh/HowToUse.md)
 
+配置
+
+```xml
+<dependency>
+    <groupId>com.github.pagehelper</groupId>
+    <artifactId>pagehelper-spring-boot-starter</artifactId>
+    <version>最新版本</version>
+</dependency>
+```
+
+application配置，省略数据源和mybatis配置
+
+用法
+
+```java
+PageHelper.startPage(pageNum, pageSize);
+//紧跟着的第一个select方法会被分页
+List<Country> list = countryMapper. selectAll ();
+
+//后面的不会被分页，除非再次调用PageHelper.startPage
+List<Country> list2 = countryMapper. selectAll ();
+```
+
+不能的写法
+
+```java
+PageHelper.startPage(1, 10);
+List<Country> list;
+if(param1 != null){
+    list = countryMapper.selectIf(param1);
+} else {
+    list = new ArrayList<Country>();
+}
+```
+
+应该的写法
+
+```java
+List<Country> list;
+if(param1 != null){
+    PageHelper.startPage(1, 10);
+    list = countryMapper.selectIf(param1);
+} else {
+    list = new ArrayList<Country>();
+}
+```
+
+> org.spring.springboot.orm.mybatis.PageController
+>
+> org.spring.springboot.orm.mybatis.pagehelper.PageService
+
+用PageController测试注意
+
+	该工程集成了shiro，所以要在RedisShiroConfig或EhcacheShiroConfig中的shirFilter()方法中加上
+
+```java
+filterChainDefinitionMap.put("/pagetest/**", "anon");
+```
+
+表示作为shiro的匿名用户，不受角色权限限制。RedisShiroConfig和EhcacheShiroConfig的@Configuration只能在其中的一个类上用，如果用RedisShiroConfig，要安装redis，并且打开redis服务。redis是管理session用的，如果不用redis管，可以把两行代码注释掉：
+
+```java
+@Bean
+	public DefaultWebSecurityManager securityManager(){
+		DefaultWebSecurityManager securityManager =  new DefaultWebSecurityManager();
+		securityManager.setRealm(myShiroRealm());
+		//如果没有配置redis 可以把下面两行代码注释
+		// 自定义session管理 使用redis
+		securityManager.setSessionManager(sessionManager());
+		// 自定义缓存实现 使用redis
+		securityManager.setCacheManager(redisCacheManager());
+		return securityManager;
+	}
+```
+
+测试url用：
+
+http://localhost:8080/pagetest/getList2?pageNum=2&pageSize=6 和
+http://localhost:8080/pagetest/getList?pageNum=2&pageSize=6
+
+#### mapper插件
+
+对每个单表写sql进行CRUD操作太繁琐，出现了通用Mapper来解决这个问题。类似的解决方式，可以用jpa或hibernate的泛型类来解决。
+
+> [官网](https://github.com/abel533/Mapper/wiki/1.integration)
+
+Maven配置
+
+	省略mybatis和mysql驱动配置
+
+```xml
+<!--与springboot集成-->
+<dependency>
+  <groupId>tk.mybatis</groupId>
+  <artifactId>mapper-spring-boot-starter</artifactId>
+  <version>版本号</version>
+</dependency>
+```
+
+application配置
+
+```properties
+mapper.mappers=tk.mybatis.mapper.common.Mapper,tk.mybatis.mapper.common.Mapper2
+mapper.notEmpty=true
+```
+
+	由于 Spring Boot 支持 Relax 方式的参数，因此你在配置 notEmpty 时更多的是用 not-empty，也只有在 Spring Boot 中使用的时候参数名不必和配置中的完全一致。
+
+> [官网配置](https://github.com/abel533/Mapper/wiki/3.config)
+
+@MapperScan 注解配置
+
+```java
+//可以兼容mybatis的@MapperScan
+@tk.mybatis.spring.annotation.MapperScan(basePackages = "org.spring.springboot.orm.mybatis")
+```
+
+> org.spring.springboot.Application
+>
+
+映射实体类
+
+> org.spring.springboot.orm.mybatis.mapper.MapperCountry
+>
+> [官网配置](https://github.com/abel533/Mapper/wiki/2.2-mapping)
+
+使用Mapper
+
+> org.spring.springboot.orm.mybatis.mapper.CountryMapper
+
+	一旦继承了Mapper，CountryMapper就能够使用selectOne()、select()、selectAll()等诸多封装的方法。
+在这个interface  不但可以直接用注解写sql，还可以在xml写sql，两者可以混合使用。
+
+测试Mapper
+
+> org.spring.springboot.mybatis.MapperTest
+
+mapper和pagehelper联合使用
+
+> org.spring.springboot.orm.mybatis.mapper.CountryService
+>
+> 测试Controller：org.spring.springboot.orm.mybatis.PageController
+>
+> PageController注意见上文
+>
+> 测试URL如下：
+>
+> http://localhost:8080/pagetest/getCountryList?pageNum=2&pageSize=3
+>
+> http://localhost:8080/pagetest/getCountryList2?pageNum=2&pageSize=3
+
+使用java.util.UUID生成主键UUID
+
+	实体类用@KeySql
+
+> UUID实现类：org.spring.springboot.orm.mybatis.mapper.genid.UUIdGenId
+>
+> 实体类:org.spring.springboot.orm.mybatis.mapper.genid.User
+
+用同步的bigint来做UUID
+
+	实体类用@KeySql
+
+> UUID实现类：org.spring.springboot.orm.mybatis.mapper.genid.SimpleGenId
+>
+> 实体类：org.spring.springboot.orm.mybatis.mapper.genid.User2
+
+测试UUID生成
+
+> org.spring.springboot.mybatis.GenidTest
 
 ### mybatis插件2 mybatisplus 
 

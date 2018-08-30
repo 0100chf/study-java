@@ -33,6 +33,7 @@ public class RedisShiroConfig {
 		Map<String,String> filterChainDefinitionMap = new LinkedHashMap<String,String>();
 		// 配置不会被拦截的链接 顺序判断
 		filterChainDefinitionMap.put("/static/**", "anon");
+		filterChainDefinitionMap.put("/pagetest/**", "anon");
 		
 		/**
 		 * 正常登录流程是，先进入controller登录，然后调用subject.login，进入shiro的AuthorizingRealm的拦截方法doGetAuthenticationInfo()
@@ -150,10 +151,11 @@ public class RedisShiroConfig {
 	public DefaultWebSecurityManager securityManager(){
 		DefaultWebSecurityManager securityManager =  new DefaultWebSecurityManager();
 		securityManager.setRealm(myShiroRealm());
+		//如果没有配置redis 可以把下面两行代码注释
 		// 自定义session管理 使用redis
-       securityManager.setSessionManager(sessionManager());
-       // 自定义缓存实现 使用redis
-       securityManager.setCacheManager(redisCacheManager());
+		securityManager.setSessionManager(sessionManager());
+		// 自定义缓存实现 使用redis
+		securityManager.setCacheManager(redisCacheManager());
 		return securityManager;
 	}
 
@@ -163,7 +165,7 @@ public class RedisShiroConfig {
    @Bean
    public SessionManager sessionManager() {
        RedisSessionManager mySessionManager = new RedisSessionManager();
-		mySessionManager.setSessionDAO(redisSessionDAO());
+       mySessionManager.setSessionDAO(redisSessionDAO());
        return mySessionManager;
    }
 	/**

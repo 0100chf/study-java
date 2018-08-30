@@ -20,7 +20,11 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-
+/**
+ * 测试Mybatis原生API
+ * @author chen haifeng
+ *
+ */
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @Import(Application.class)
@@ -37,7 +41,7 @@ public class MybatisTests {
 	@Autowired
 	private SysRoleMapper2 sysRoleMapper2;
 	
-	//@Test
+	@Test
 	public void testSysRoleMapper() throws Exception {
 		
 		SysRole r=sysRoleMapper.selectByid(1L);
@@ -81,8 +85,8 @@ public class MybatisTests {
 		Assert.assertNotNull(sysRoleList4.size());
 	}
 	
-	@Test
-	@Rollback(value=false)//junit默认是回滚的
+	//@Test
+	//@Rollback(value=false)//junit默认是回滚的
 	public void testUserMapper() throws Exception {
 		// insert一条数据，并select出来验证
 		userMapper.insert("AAA", 20);
