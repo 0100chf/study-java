@@ -30,5 +30,13 @@ public class PageService {
         return new PageInfo<PageObject>(countryList);
     }
 	
+	//测试联表分页查询
+	public List<OrderInfo> getList3(int pageNum, int pageSize,String poid) throws Exception {
+        //使用分页插件,核心代码就这一行
+        PageHelper.startPage(pageNum, pageSize);
+        //必须在PageHelper后紧跟 MyBatis 查询方法，这就是安全的。因为 PageHelper 在 finally 代码段中自动清除了 ThreadLocal 存储的对象
+        List<OrderInfo> pageList = pageMapper.selectOrderInfo(poid);
+        return pageList;
+    }
 	
 }

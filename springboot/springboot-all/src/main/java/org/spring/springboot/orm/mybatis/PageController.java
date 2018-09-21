@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.spring.springboot.orm.mybatis.mapper.CountryService;
 import org.spring.springboot.orm.mybatis.mapper.MapperCountry;
+import org.spring.springboot.orm.mybatis.pagehelper.OrderInfo;
 import org.spring.springboot.orm.mybatis.pagehelper.PageObject;
 import org.spring.springboot.orm.mybatis.pagehelper.PageService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ import com.github.pagehelper.PageInfo;
 //http://localhost:8080/pagetest/getList?pageNum=2&pageSize=6
 //http://localhost:8080/pagetest/getCountryList?pageNum=2&pageSize=3
 //http://localhost:8080/pagetest/getCountryList2?pageNum=2&pageSize=3
+//http://localhost:8080/pagetest/getList3?pageNum=1&pageSize=3&poid=po2
 @RestController
 @RequestMapping("/pagetest")
 public class PageController {
@@ -38,6 +40,13 @@ public class PageController {
         // 调用业务逻辑,返回数据
         return pageService.getList2(pageNum,pageSize);
     }
+	
+	@RequestMapping(value = "/getList3")
+	public  List<OrderInfo> getList3(int pageNum, int pageSize,String poid) throws Exception {
+        // 调用业务逻辑,返回数据
+        return pageService.getList3(pageNum,pageSize,poid);
+    }
+	
 	
 	@RequestMapping(value = "/getCountryList")
 	public List<MapperCountry> getCountryList(int pageNum, int pageSize) throws Exception {

@@ -5,4 +5,9 @@
 	<select id="selectAll"    resultType="org.spring.springboot.orm.mybatis.pagehelper.PageObject" >
 	  select *  from  mybatis_page 
 	</select>
+	
+	<select id="selectOrderInfo"    resultType="org.spring.springboot.orm.mybatis.pagehelper.OrderInfo" >
+	  select i.* from page_ext_order_info i , page_ext_order o where i.po_id=o.po_id  and  i.po_id=#{poid}
+	</select>
+	
 </mapper>
