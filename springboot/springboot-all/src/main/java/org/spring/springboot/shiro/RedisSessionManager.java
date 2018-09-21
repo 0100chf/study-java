@@ -1,4 +1,4 @@
-package org.spring.springboot.shiro.config;
+package org.spring.springboot.shiro;
 
 import java.io.Serializable;
 

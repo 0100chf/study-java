@@ -1,4 +1,4 @@
-package org.spring.springboot.common.config;
+package org.spring.springboot.config;
 
 import javax.annotation.PostConstruct;
 

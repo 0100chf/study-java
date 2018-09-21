@@ -1,32 +1,37 @@
-package org.spring.springboot.shiro.config;
+package org.spring.springboot.config;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
+import org.apache.shiro.cache.CacheManager;
 import org.apache.shiro.mgt.SecurityManager;
-import org.apache.shiro.session.mgt.SessionManager;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
-import org.crazycake.shiro.RedisCacheManager;
-import org.crazycake.shiro.RedisManager;
-import org.crazycake.shiro.RedisSessionDAO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.spring.springboot.shiro.EhcacheShiroManager;
+import org.spring.springboot.shiro.MyShiroRealm;
+import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
+import org.springframework.cache.ehcache.EhCacheManagerFactoryBean;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.DependsOn;
 
-@Configuration
-public class RedisShiroConfig {
-	private static final Logger logger = LoggerFactory.getLogger(RedisShiroConfig.class);
+
+
+//@Configuration
+public class EhcacheShiroConfig {
 	
+	private static final Logger logger = LoggerFactory.getLogger(EhcacheShiroConfig.class);
+	
+	// @Value("${my.ehcache..config}")
+	// private String ehcacheXml;
 	 
 	@Bean
 	public ShiroFilterFactoryBean shirFilter(SecurityManager securityManager) {
 		
-		logger.info("ShiroConfig_redis ShiroConfiguration.shirFilter().....................");
+		logger.info("ShiroConfig_ehcache ShiroConfiguration.shirFilter().....................");
 		ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
 		shiroFilterFactoryBean.setSecurityManager(securityManager);
 		//拦截器.
@@ -47,10 +52,10 @@ public class RedisShiroConfig {
 		
 		// 以下4句配置swagger不会被拦截的链接 顺序判断
 		filterChainDefinitionMap.put("/swagger-ui.html", "anon");
-       filterChainDefinitionMap.put("/swagger-resources/**", "anon");
-       filterChainDefinitionMap.put("/v2/api-docs", "anon");
-       filterChainDefinitionMap.put("/webjars/springfox-swagger-ui/**", "anon");
-       
+        filterChainDefinitionMap.put("/swagger-resources/**", "anon");
+        filterChainDefinitionMap.put("/v2/api-docs", "anon");
+        filterChainDefinitionMap.put("/webjars/springfox-swagger-ui/**", "anon");
+        
 		//配置退出 过滤器,其中的具体的退出代码Shiro已经替我们实现了
 		filterChainDefinitionMap.put("/web/loginout", "logout");
 		filterChainDefinitionMap.put("/app/loginout", "logout");
@@ -91,83 +96,40 @@ public class RedisShiroConfig {
 	}
 
 	@Bean
-	public MyShiroRealm myShiroRealm(){
-		MyShiroRealm myShiroRealm = new MyShiroRealm(redisCacheManager(),hashedCredentialsMatcher());
-		
+	public MyShiroRealm myShiroRealm(CacheManager cacheManager){
+		MyShiroRealm myShiroRealm = new MyShiroRealm(cacheManager,hashedCredentialsMatcher());
+		myShiroRealm.setAuthenticationCacheName("authenticationCache");
+		myShiroRealm.setAuthorizationCacheName("authorizationCache");
+	        
 		return myShiroRealm;
 	}
 
-
-   
-   
-   /**
-    * 配置shiro redisManager
-    * 使用的是shiro-redis开源插件
-    * prefix = "spring.redis" 查看application文件
-    * @return
-    */
-   @ConfigurationProperties(prefix = "spring.redis")
-   private RedisManager redisManager() {
-       RedisManager redisManager = new RedisManager();
-       return redisManager;
-   }
-   
-   /**
-    * cacheManager 缓存 redis实现
-    * 使用的是shiro-redis开源插件
-    *
-    * @return
-    */
-   private RedisCacheManager redisCacheManager() {
-       RedisCacheManager redisCacheManager = new RedisCacheManager();
-       redisCacheManager.setRedisManager(redisManager());
-       
-       return redisCacheManager;
-   }
-   
-   /**
-    * RedisSessionDAO shiro sessionDao层的实现 通过redis
-    * 使用的是shiro-redis开源插件
-    */
-   //@Bean
-   public RedisSessionDAO redisSessionDAO() {
-       RedisSessionDAO redisSessionDAO = new RedisSessionDAO();
-       redisSessionDAO.setRedisManager(redisManager());
-//     Custom your redis key prefix for session management, if you doesn't define this parameter,
-//     shiro-redis will use 'shiro_redis_session:' as default prefix
-//     redisSessionDAO.setKeyPrefix("");
-       return redisSessionDAO;
-   }
-   
-
-   
-   /**
-    * 安全管理器
-    * 注：使用shiro-spring-boot-starter 1.4时，返回类型是SecurityManager会报错，直接引用shiro-spring则不报错
-    *
-    * @return
-    */
-	@Bean
-	public DefaultWebSecurityManager securityManager(){
-		DefaultWebSecurityManager securityManager =  new DefaultWebSecurityManager();
-		securityManager.setRealm(myShiroRealm());
-		//如果没有配置redis 可以把下面两行代码注释
-		// 自定义session管理 使用redis
-		securityManager.setSessionManager(sessionManager());
-		// 自定义缓存实现 使用redis
-		securityManager.setCacheManager(redisCacheManager());
-		return securityManager;
-	}
-
-
-   
-   //自定义sessionManager
-   @Bean
-   public SessionManager sessionManager() {
-       RedisSessionManager mySessionManager = new RedisSessionManager();
-       mySessionManager.setSessionDAO(redisSessionDAO());
-       return mySessionManager;
-   }
+    
+    /**
+     * 缓存管理器
+     * 把user对象 序列化作为key
+     * @param cacheManager
+     * @return
+     */
+    @Bean
+    public EhcacheShiroManager shiroSpringCacheManager(org.springframework.cache.CacheManager cacheManager) {
+        return new EhcacheShiroManager(cacheManager);
+    }
+    
+    /**
+     * 安全管理器
+     * 注：使用shiro-spring-boot-starter 1.4时，返回类型是SecurityManager会报错，直接引用shiro-spring则不报错
+     *
+     * @return
+     */
+    @Bean
+    public DefaultWebSecurityManager securityManager(CacheManager cacheManager) {
+        DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
+        securityManager.setRealm(myShiroRealm(cacheManager));
+        securityManager.setCacheManager(cacheManager);
+        return securityManager;
+    }
+    
 	/**
 	 *  开启shiro aop注解支持.
 	 *  使用代理方式;所以需要开启代码支持;
@@ -181,6 +143,41 @@ public class RedisShiroConfig {
 		return authorizationAttributeSourceAdvisor;
 	}
 	
-
-
+	/**
+	 * aop代理,使用shiro-Ehcache 一定要加
+	 * @return
+	 */
+	@Bean
+	@DependsOn("lifecycleBeanPostProcessor")
+	public DefaultAdvisorAutoProxyCreator defaultAdvisorAutoProxyCreator() {
+	    DefaultAdvisorAutoProxyCreator defaultAdvisorAutoProxyCreator = new DefaultAdvisorAutoProxyCreator();
+	    defaultAdvisorAutoProxyCreator.setProxyTargetClass(true);
+	    return defaultAdvisorAutoProxyCreator;
+	}
+	
+    /**
+     * 设置为共享模式,使用shiro-Ehcache 一定要加
+     * @return
+     */
+    @Bean
+    public EhCacheManagerFactoryBean ehCacheManagerFactoryBean() {
+        EhCacheManagerFactoryBean cacheManagerFactoryBean = new EhCacheManagerFactoryBean();
+        cacheManagerFactoryBean.setShared(true);
+        return cacheManagerFactoryBean;
+    }
+    
+/*	@Bean(name="simpleMappingExceptionResolver")
+	public SimpleMappingExceptionResolver createSimpleMappingExceptionResolver() {
+		
+		logger.info("SimpleMappingExceptionResolver.createSimpleMappingExceptionResolver().....................");
+		SimpleMappingExceptionResolver r = new SimpleMappingExceptionResolver();
+		Properties mappings = new Properties();
+		mappings.setProperty("DatabaseException", "databaseError");//数据库异常处理
+		mappings.setProperty("UnauthorizedException","403");
+		r.setExceptionMappings(mappings);  // None by default
+		r.setDefaultErrorView("error");    // No default
+		r.setExceptionAttribute("ex");     // Default is "exception"
+		//r.setWarnLogCategory("example.MvcLogger");     // No default
+		return r;
+	}*/
 }

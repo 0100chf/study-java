@@ -1,4 +1,4 @@
-package org.spring.springboot.shiro.config;
+package org.spring.springboot.shiro;
 
 import net.sf.ehcache.Ehcache;
 import net.sf.ehcache.Element;

@@ -101,3 +101,59 @@ create table genid_user (
   name varchar(32),
   code VARCHAR(32)
 );
+
+ DROP TABLE IF EXISTS `genid_user2`;
+create table genid_user2 (
+  id   bigint NOT NULL PRIMARY KEY,
+  name varchar(32),
+  code VARCHAR(32)
+);
+
+ DROP TABLE IF EXISTS `page_ext_order`;
+ create table page_ext_order (
+  po_id   varchar(32)  NOT NULL PRIMARY KEY
+ );
+ 
+  DROP TABLE IF EXISTS `page_ext_order_info`;
+ create table page_ext_order_info (
+  oi_id   varchar(32)  NOT NULL PRIMARY KEY,
+  po_id   varchar(32)  ,
+  info text
+ );
+ 
+ insert into page_ext_order values('po1');
+ insert into page_ext_order values('po2');
+ insert into page_ext_order values('po3');
+ 
+ insert into page_ext_order_info(oi_id,po_id,info) values('oid1','po1','txt1');
+ insert into page_ext_order_info(oi_id,po_id,info) values('oid2','po1','txt2');
+ insert into page_ext_order_info(oi_id,po_id,info) values('oid3','po1','txt3');
+ insert into page_ext_order_info(oi_id,po_id,info) values('oid4','po1','txt4');
+ insert into page_ext_order_info(oi_id,po_id,info) values('oid5','po1','txt5'); 
+ insert into page_ext_order_info(oi_id,po_id,info) values('oid6','po1','txt6');
+ insert into page_ext_order_info(oi_id,po_id,info) values('oid7','po1','txt7');
+ insert into page_ext_order_info(oi_id,po_id,info) values('oid8','po1','txt8');
+ insert into page_ext_order_info(oi_id,po_id,info) values('oid9','po1','txt9');
+ insert into page_ext_order_info(oi_id,po_id,info) values('oid10','po1','txt10'); 
+ insert into page_ext_order_info(oi_id,po_id,info) values('oid11','po1','txt11');
+ insert into page_ext_order_info(oi_id,po_id,info) values('oid12','po2','txt12');
+ insert into page_ext_order_info(oi_id,po_id,info) values('oid13','po2','txt13');
+ insert into page_ext_order_info(oi_id,po_id,info) values('oid14','po2','txt14');
+ insert into page_ext_order_info(oi_id,po_id,info) values('oid15','po2','txt15'); 
+ insert into page_ext_order_info(oi_id,po_id,info) values('oid16','po2','txt16');
+ insert into page_ext_order_info(oi_id,po_id,info) values('oid17','po2','txt17');
+ insert into page_ext_order_info(oi_id,po_id,info) values('oid18','po2','txt18');
+ insert into page_ext_order_info(oi_id,po_id,info) values('oid19','po2','txt19');
+ insert into page_ext_order_info(oi_id,po_id,info) values('oid20','po2','txt20'); 
+ insert into page_ext_order_info(oi_id,po_id,info) values('oid21','po2','txt21');
+ insert into page_ext_order_info(oi_id,po_id,info) values('oid22','po2','txt22');
+ insert into page_ext_order_info(oi_id,po_id,info) values('oid23','po3','txt23');
+ insert into page_ext_order_info(oi_id,po_id,info) values('oid24','po3','txt24');
+ insert into page_ext_order_info(oi_id,po_id,info) values('oid25','po3','txt25'); 
+ insert into page_ext_order_info(oi_id,po_id,info) values('oid26','po3','txt26');
+ insert into page_ext_order_info(oi_id,po_id,info) values('oid27','po3','txt27');
+ insert into page_ext_order_info(oi_id,po_id,info) values('oid28','po3','txt28');
+ insert into page_ext_order_info(oi_id,po_id,info) values('oid29','po3','txt29');
+ insert into page_ext_order_info(oi_id,po_id,info) values('oid30','po3','txt30'); 
+ 
+ 
