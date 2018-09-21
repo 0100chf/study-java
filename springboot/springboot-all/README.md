@@ -1,11 +1,16 @@
+[TOC]
+
+
+
 ## 目标
 
 - [x] 多ORM：jdbctemplate
 - [x] ORM：jpa
 - [x] ORM：mybatis
-- [ ] mybatis插件1 pagehelper插件、通用mapper插件
-- [ ] mybatis插件2 mybatisplus 
+- [x] mybatis插件1 pagehelper插件、通用mapper插件
+- [ ] mybatis插件2 mybatisplus（暂停） 
 - [ ] 多数据源
+- [ ] 事务
 - [ ] Flyway数据库版本控制器？
 - [ ] Restful
 - [ ] Thymeleaf
@@ -22,7 +27,6 @@
 - [ ] 日志
 - [ ] 集成shiro
 - [ ] 集成JWT
-- [ ] 事务
 - [ ] 异步调用、多线程
 - [ ] 定时任务?
 - [ ] 邮件发送?
