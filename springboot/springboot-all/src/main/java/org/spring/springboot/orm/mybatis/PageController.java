@@ -13,11 +13,16 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.github.pagehelper.PageInfo;
 
-//访问：http://localhost:8080/pagetest/getList2?pageNum=2&pageSize=6
+//pagehelper使用
+//http://localhost:8080/pagetest/getList2?pageNum=2&pageSize=6
 //http://localhost:8080/pagetest/getList?pageNum=2&pageSize=6
+//pagehelper 联表查询使用
+//http://localhost:8080/pagetest/getList3?pageNum=1&pageSize=3&poid=po2
+
+//通用mapper和pagehelper联用：
 //http://localhost:8080/pagetest/getCountryList?pageNum=2&pageSize=3
 //http://localhost:8080/pagetest/getCountryList2?pageNum=2&pageSize=3
-//http://localhost:8080/pagetest/getList3?pageNum=1&pageSize=3&poid=po2
+
 @RestController
 @RequestMapping("/pagetest")
 public class PageController {

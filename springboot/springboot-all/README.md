@@ -369,6 +369,10 @@ filterChainDefinitionMap.put("/pagetest/**", "anon");
 http://localhost:8080/pagetest/getList2?pageNum=2&pageSize=6 和
 http://localhost:8080/pagetest/getList?pageNum=2&pageSize=6
 
+联表查询分页：
+
+http://localhost:8080/pagetest/getList3?pageNum=1&pageSize=3&poid=po2
+
 #### mapper插件
 
 对每个单表写sql进行CRUD操作太繁琐，出现了通用Mapper来解决这个问题。类似的解决方式，可以用jpa或hibernate的泛型类来解决。

@@ -19,6 +19,7 @@ public class CountryService {
 	@Autowired
 	private CountryMapper countryMapper;
 	
+	//通用mapper和pagehelper联用
 	public List<MapperCountry> getList(int pageNum, int pageSize) throws Exception {
         //使用分页插件,核心代码就这一行
         PageHelper.startPage(pageNum, pageSize);
